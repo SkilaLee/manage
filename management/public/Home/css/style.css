@@ -1,0 +1,11 @@
+.row {
+    margin-top: 200px;
+    /* margin-left: 23px; */
+}
+#btn,#btn1 {
+	float: right;
+	margin-right: 25px;
+}
+.row-fluid {
+    margin-top: 40px;
+}
