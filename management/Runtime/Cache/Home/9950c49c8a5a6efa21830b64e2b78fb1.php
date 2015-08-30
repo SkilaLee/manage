@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link href="<?php echo (CSS_URL); ?>/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-	<link rel="stylesheet" type="text/css" href="<?php echo (CSS_URL); ?>/style.css">
+	<link href="/test/appraise/management/Public/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" type="text/css" href="/test/appraise/management/Public/css/style.css">
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="span12">
-				<form class="form-horizontal" action="<?php echo (VIEW); ?>/Manage/doAdd" method="post">
+				<form class="form-horizontal" action="/test/appraise/management/index.php/Home/Manage/doAdd" method="post">
 					<div class="control-group">
 						<label class="control-label" for="inputEmail">名字:</label>
 						<div class="controls">

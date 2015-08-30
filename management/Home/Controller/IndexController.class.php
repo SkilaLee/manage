@@ -16,7 +16,7 @@ class IndexController extends Controller {
     		$re = $User->data($data)->where($da)->save();
     	}
     	if (session('user_id')) {
-    		header('Location: '.VIEW.'/Manage/index');
+    		header('Location: '.__MODULE__.'/Manage/index');
     	}else {
     		$this->display('login');
     	}

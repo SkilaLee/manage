@@ -16,7 +16,7 @@ class ManageController extends Controller {
         if ($name) {
             session('user_id',$user_id);
       		// var_dump( $name);
-            header('Location: '.VIEW.'/index/index');
+            header('Location: '.__MODULE__.'/index/index');
         }else{
             $this->error('用户名或密码错误!');
             // echo "用户名或密码错误";
@@ -127,7 +127,7 @@ class ManageController extends Controller {
             $this->display('index');
 
     	}else {
-    		$this->error('请先登录!',VIEW.'/index/index');
+    		$this->error('请先登录!',__MODULE__.'/index/index');
     	}
     }
     /**
@@ -135,7 +135,7 @@ class ManageController extends Controller {
      */
     public function outlogin() {
     	session('user_id',null);
-        header('Location: '.VIEW.'/index/index');
+        header('Location: '.__MODULE__.'/index/index');
     }
 
     /**
@@ -146,7 +146,7 @@ class ManageController extends Controller {
     	$User = M('user');
     	$data['user_num'] = $id;
 		$res = $User->where($data)->setDec('role_id');   //升职,role_id减1
-        header('Location: '.VIEW.'/index/index');
+        header('Location: '.__MODULE__.'/index/index');
     }
 
     /**
@@ -157,7 +157,7 @@ class ManageController extends Controller {
     	$User = M('user');
     	$data['user_num'] = $id;
 		$res = $User->where($data)->setInc('role_id');   //降职,role_id加1
-        header('Location: '.VIEW.'/index/index');
+        header('Location: '.__MODULE__.'/index/index');
     }
 
     /**
@@ -204,7 +204,7 @@ class ManageController extends Controller {
 					break;
 				
 				default:
-  		   			$this->success('您的权限不够哦!',VIEW.'/index/index');
+  		   			$this->success('您的权限不够哦!',__MODULE__.'/index/index');
 					break;
 			}
 
@@ -213,7 +213,7 @@ class ManageController extends Controller {
 			$this->assign('con',$content);
     		$this->display('add');
     }else {
-            header('Location: '.VIEW.'/index/index');
+            header('Location: '.__MODULE__.'/index/index');
     }
     }
 
@@ -222,18 +222,22 @@ class ManageController extends Controller {
     	$user_num = I('post.user_num');
     	$role_id = I('post.role');
     	$user_id_num = I('post.user_id_num');
-    	// echo $user_name.'<br>'.$user_num.'<br>'.$role_id.'<br>'.$user_id_num;
-    	$User = M('user');
-    	$User_info = M('user_info');
-    	$data = array(
-    		'user_num' => $user_num,
-    		'user_name' => $user_name,
-    		'role_id' => $role_id
-    		 );
-    	$res = $User->add($data);
-    	$re = D('User')->add($user_num,$user_id_num);
-    	if ($re&&$res) {
-  		   	$this->success('添加成功!',VIEW.'/index/index');
-    	}
+    	if ($user_name&&$user_num&&$role_id&&$user_id_num) {
+  		   	$User = M('user');
+	    	$User_info = M('user_info');
+	    	$data = array(
+	    		'user_num' => $user_num,
+	    		'user_name' => $user_name,
+	    		'role_id' => $role_id
+	    		 );
+	    	$res = $User->add($data);
+	    	$re = D('User')->add($user_num,$user_id_num);
+	    	if ($re&&$res) {
+	  		   	$this->success('添加成功!',__MODULE__.'/index/index');
+	    	}
+    	}else {
+	    	
+	    	$this->error('所有的信息都是必填的哦');
+	    }
     }
 }

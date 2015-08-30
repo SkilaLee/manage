@@ -1,8 +1,8 @@
 <?php if (!defined('THINK_PATH')) exit();?><html>
 <head>
 <meta charset="UTF-8">
-<link href="<?php echo (CSS_URL); ?>/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" type="text/css" href="<?php echo (CSS_URL); ?>/style.css">
+<link href="/test/appraise/management/Public/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="/test/appraise/management/Public/css/style.css">
 <title>权限管理系统</title>
 </head>
 <body>
