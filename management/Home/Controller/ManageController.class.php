@@ -39,7 +39,9 @@ class ManageController extends Controller {
             $this->assign('role',$role_name[0]['role_name']);
             switch ($name[0]['role_id']) {
             	case 1:    //校长
-            		$map['role_id']  = 2;   //role_id大于1的
+
+            		//只低一级,不能升职...
+            		$map['role_id']  = 2;   
             		$people1 = $User->where($map)->order('role_id')->select();
             		//把角色名弄到people1数组里面,方便模板输出
             		for ($i=0; $i < count($people1); $i++) { 
@@ -48,7 +50,7 @@ class ManageController extends Controller {
             			$people1[$i]['role_name'] = $ro_name[0]['role_name'];
             		}
 
-            		$map['role_id']  = array('gt',2);   //role_id大于1的
+            		$map['role_id']  = array('in','3');   //role_id大于1的
             		$people = $User->where($map)->order('role_id')->select();
             		//把角色名弄到people数组里面,方便模板输出
             		for ($i=0; $i < count($people); $i++) { 
@@ -57,9 +59,19 @@ class ManageController extends Controller {
             			$people[$i]['role_name'] = $ro_name[0]['role_name'];
             		}
 
+            		$map['role_id']  = 4;   //最低级了...
+            		$people2 = $User->where($map)->order('role_id')->select();
+            		//把角色名弄到people2数组里面,方便模板输出
+            		for ($i=0; $i < count($people2); $i++) { 
+            			$na['role_id'] = $people2[$i]['role_id']; 
+            			$ro_name = $Role->field('role_name')->where($na)->select();
+            			$people2[$i]['role_name'] = $ro_name[0]['role_name'];
+            		}
             		break;
             	case 2:
-            		$map['role_id']  = 3;   //role_id大于1的
+
+            		//只低一级,不能升职...
+            		$map['role_id']  = 3;  
             		$people1 = $User->where($map)->order('role_id')->select();
             		//把角色名弄到people1数组里面,方便模板输出
             		for ($i=0; $i < count($people1); $i++) { 
@@ -68,45 +80,49 @@ class ManageController extends Controller {
             			$people1[$i]['role_name'] = $ro_name[0]['role_name'];
             		}
 
-            		$map['role_id']  = array('gt',3);   //role_id大于1的
-            		$people = $User->where($map)->order('role_id')->select();
-            		//把角色名弄到people数组里面,方便模板输出
-            		for ($i=0; $i < count($people); $i++) { 
-            			$na['role_id'] = $people[$i]['role_id']; 
+            		// $map['role_id']  = array('gt',3);   //role_id大于1的
+            		// $people = $User->where($map)->order('role_id')->select();
+            		// //把角色名弄到people数组里面,方便模板输出
+            		// for ($i=0; $i < count($people); $i++) { 
+            		// 	$na['role_id'] = $people[$i]['role_id']; 
+            		// 	$ro_name = $Role->field('role_name')->where($na)->select();
+            		// 	$people[$i]['role_name'] = $ro_name[0]['role_name'];
+            		// }
+
+            		$map['role_id']  = 4;   //最低级了...
+            		$people2 = $User->where($map)->order('role_id')->select();
+            		//把角色名弄到people2数组里面,方便模板输出
+            		for ($i=0; $i < count($people2); $i++) { 
+            			$na['role_id'] = $people2[$i]['role_id']; 
             			$ro_name = $Role->field('role_name')->where($na)->select();
-            			$people[$i]['role_name'] = $ro_name[0]['role_name'];
+            			$people2[$i]['role_name'] = $ro_name[0]['role_name'];
             		}
             		break;
-            	case 3:
 
-            		$map['role_id']  = array('gt',3);   //role_id大于1的
-            		$people = $User->where($map)->order('role_id')->select();
-            		//把角色名弄到people数组里面,方便模板输出
-            		for ($i=0; $i < count($people); $i++) { 
-            			$na['role_id'] = $people[$i]['role_id']; 
+            	case 3:
+            		
+            		$map['role_id']  = 4;   //最低级了...
+            		$people2 = $User->where($map)->order('role_id')->select();
+            		//把角色名弄到people2数组里面,方便模板输出
+            		for ($i=0; $i < count($people2); $i++) { 
+            			$na['role_id'] = $people2[$i]['role_id']; 
             			$ro_name = $Role->field('role_name')->where($na)->select();
-            			$people[$i]['role_name'] = $ro_name[0]['role_name'];
+            			$people2[$i]['role_name'] = $ro_name[0]['role_name'];
             		}
             		break;
             	case 4:    //校工,革命尚未成功,同志仍需努力
-            		$map['role_id']  = array('gt',3);   //role_id大于1的
-            		$people = $User->where($map)->order('role_id')->select();
-            		//把角色名弄到people数组里面,方便模板输出
-            		for ($i=0; $i < count($people); $i++) { 
-            			$na['role_id'] = $people[$i]['role_id']; 
-            			$ro_name = $Role->field('role_name')->where($na)->select();
-            			$people[$i]['role_name'] = $ro_name[0]['role_name'];
-            		}
+            		
             		break;
             	
             	default:
-            		$this->error('对不起,你已经被辞职了');
+            		$this->error('对不起,你已经被辞职了','#');
             		break;
             }
 
             			// var_dump($people);
-            // var_dump($people);
+            // var_dump($people1);
             $this->assign('people',$people);
+            $this->assign('people2',$people2);
             $this->assign('people1',$people1);
             $this->display('index');
 
@@ -151,9 +167,73 @@ class ManageController extends Controller {
     	$id = I('get.id');
     	$User = M('user');
     	$data['user_num'] = $id;
+    	$name = $User->field('user_name')->where($data)->select();
     	$da['role_id'] = 0;
     	$res = $User->where($data)->data($da)->save();
-    	var_dump($res);
+   		$this->success($name[0]['user_name'].'已经被你辞咯');
     }
 
+
+    public function add() {
+    	if (session('user_id')) {
+            $user_id['user_id'] = session('user_id');
+
+            $User = M('user');
+            $name = $User->field('user_name,role_id')->where($user_id)->select();
+                      
+            switch ($name[0]['role_id']) {
+            	case 1:    //校长
+
+            		//可以任科研人员,教师,校工
+            		$content = "<select class='style' name = 'role'>
+								  <option value='2'>科研人员</option>
+								  <option value='3'>教师</option>
+								  <option value='4'>校工</option>
+								</select>";
+					break;
+				case 2:
+					$content = "<select class='style' name = 'role'>
+								  <option value='3'>教师</option>
+								  <option value='4'>校工</option>
+								</select>";
+					break;
+				case 3:
+					$content = "<select class='style' name = 'role'>
+								  <option value='4'>校工</option>
+								</select>";
+					break;
+				
+				default:
+  		   			$this->success('您的权限不够哦!',VIEW.'/index/index');
+					break;
+			}
+
+
+
+			$this->assign('con',$content);
+    		$this->display('add');
+    }else {
+            header('Location: '.VIEW.'/index/index');
+    }
+    }
+
+    public function doAdd() {
+    	$user_name = I('post.user_name');
+    	$user_num = I('post.user_num');
+    	$role_id = I('post.role');
+    	$user_id_num = I('post.user_id_num');
+    	// echo $user_name.'<br>'.$user_num.'<br>'.$role_id.'<br>'.$user_id_num;
+    	$User = M('user');
+    	$User_info = M('user_info');
+    	$data = array(
+    		'user_num' => $user_num,
+    		'user_name' => $user_name,
+    		'role_id' => $role_id
+    		 );
+    	$res = $User->add($data);
+    	$re = D('User')->add($user_num,$user_id_num);
+    	if ($re&&$res) {
+  		   	$this->success('添加成功!',VIEW.'/index/index');
+    	}
+    }
 }

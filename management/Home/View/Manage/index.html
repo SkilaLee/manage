@@ -1,10 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-2.0.0.min.js"></script>
-<script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
-<link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/bootstrap.min.js"></script>
+<link href="{$Think.const.CSS_URL}/bootstrap-combined.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}/style.css">
 <title>权限管理系统</title>
 </head>
@@ -20,6 +17,9 @@
 	<div class="row-fluid">
 		<div class="span2">
 			<h3>你好,{$role}</h3>
+			<a href="add">
+				<button class="btn btn-small btn-primary" type="button">添加员工</button>
+			</a>
 		</div>
 		<div class="span6">
 			<table class="table">
@@ -80,6 +80,27 @@
 									<button class="btn btn-small btn-primary" type="button">降</button>
 								</a>
 								<a href="out?id={$pp.user_num}">
+									<button class="btn btn-small btn-primary" type="button">辞</button>
+								</a>
+							</td>
+						</tr>
+					 </volist>
+					 <volist name="people2" id="pp2">
+						<tr class="info">
+							<td>
+								{$pp2.user_num}
+							</td>
+							<td>
+								{$pp2.user_name}
+							</td>
+							<td>
+								{$pp2.role_name}
+							</td>
+							<td>
+								<a href="up?id={$pp2.user_num}">
+									<button class="btn btn-small btn-primary" type="button">升</button>
+								</a>
+								<a href="out?id={$pp2.user_num}">
 									<button class="btn btn-small btn-primary" type="button">辞</button>
 								</a>
 							</td>
